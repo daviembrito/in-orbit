@@ -85,78 +85,47 @@ export function Summary() {
                     Você ainda não completou nenhuma meta essa semana.
                 </span> */}
 
-                <div className="flex flex-col gap-4">
-                    <h3 className="font-medium">
-                        Hoje{' '}
-                        <span className="text-zinc-400 text-xs">
-                            (06 de Agosto)
-                        </span>
-                    </h3>
+                {Object.entries(data.completionsPerDay).map(([date, goals]) => {
+                    const weekDay = dayjs(date).format('dddd')
+                    const formattedDate = dayjs(date).format('DD [de] MMMM')
 
-                    <ul className="flex flex-col gap-3">
-                        <li className="flex items-center gap-3">
-                            <CheckCircle2 className="size-4 text-pink-500" />
-                            <span className="text-zinc-400 text-sm">
-                                Você completou "
-                                <span className="text-zinc-100">
-                                    Acordar cedo
+                    return (
+                        <div key={date} className="flex flex-col gap-4 ">
+                            <h3 className="font-medium">
+                                <span className="capitalize">{weekDay}</span>{' '}
+                                <span className="text-zinc-400 text-xs">
+                                    ({formattedDate})
                                 </span>
-                                " às{' '}
-                                <span className="text-zinc-100">08:13h</span>
-                            </span>
-                        </li>
-                        <li className="flex items-center gap-3">
-                            <CheckCircle2 className="size-4 text-pink-500" />
-                            <span className="text-zinc-400 text-sm">
-                                Você completou "
-                                <span className="text-zinc-100">Meditar</span>"
-                                às <span className="text-zinc-100">10:23h</span>
-                            </span>
-                        </li>
-                        <li className="flex items-center gap-3">
-                            <CheckCircle2 className="size-4 text-pink-500" />
-                            <span className="text-zinc-400 text-sm">
-                                Você completou "
-                                <span className="text-zinc-100">
-                                    Praticar exercício
-                                </span>
-                                " às{' '}
-                                <span className="text-zinc-100">19:49h</span>
-                            </span>
-                        </li>
-                    </ul>
-                </div>
+                            </h3>
 
-                <div className="flex flex-col gap-4">
-                    <h3 className="font-medium">
-                        Ontem{' '}
-                        <span className="text-zinc-400 text-xs">
-                            (05 de Agosto)
-                        </span>
-                    </h3>
-
-                    <ul className="flex flex-col gap-3">
-                        <li className="flex items-center gap-3">
-                            <CheckCircle2 className="size-4 text-pink-500" />
-                            <span className="text-zinc-400 text-sm">
-                                Você completou "
-                                <span className="text-zinc-100">
-                                    Acordar cedo
-                                </span>
-                                " às{' '}
-                                <span className="text-zinc-100">08:17h</span>
-                            </span>
-                        </li>
-                        <li className="flex items-center gap-3">
-                            <CheckCircle2 className="size-4 text-pink-500" />
-                            <span className="text-zinc-400 text-sm">
-                                Você completou "
-                                <span className="text-zinc-100">Meditar</span>"
-                                às <span className="text-zinc-100">10:12h</span>
-                            </span>
-                        </li>
-                    </ul>
-                </div>
+                            <ul className="flex flex-col gap-3">
+                                {goals.map(goal => {
+                                    const time = dayjs(goal.completedAt).format(
+                                        'HH:mm[h]'
+                                    )
+                                    return (
+                                        <li
+                                            key={goal.id}
+                                            className="flex items-center gap-3"
+                                        >
+                                            <CheckCircle2 className="size-4 text-pink-500" />
+                                            <span className="text-zinc-400 text-sm">
+                                                Você completou "
+                                                <span className="text-zinc-100">
+                                                    {goal.title}
+                                                </span>
+                                                " às{' '}
+                                                <span className="text-zinc-100">
+                                                    {time}
+                                                </span>
+                                            </span>
+                                        </li>
+                                    )
+                                })}
+                            </ul>
+                        </div>
+                    )
+                })}
             </div>
         </div>
     )
